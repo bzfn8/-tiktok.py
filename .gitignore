@@ -1,129 +1,114 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+my_name = input('Enter your name:')
+print('hello', my_name)
 
-# C extensions
-*.so
+#Successfully Cracked Source By @z3u
+import socket
+import getpass, requests, os, threading, ctypes
+from colorama import Fore
+import colorama
+from time import sleep
+from os.path import exists
+colorama.init(autoreset=True)
+attempts = 0
+check_list = False
+print(f'[{Fore.RED}Swapper TikTok a_u {Fore.RESET}]: vFast')
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+def getss():
+	global ssid
+	
+	email = input(f"[{Fore.RED}?{Fore.RESET}] Email : ")
+	password = input(f"[{Fore.RED}?{Fore.RESET}] Password : ")
+	url = "https://api2.musical.ly/passport/user/login/?mix_mode=1&username=1&email=&mobile=&account=&password=hg&captcha=&ts=&app_type=normal&app_language=en&manifest_version_code=2018073102&_rticket=1633593458298&iid=7011916372695598854&channel=googleplay&language=en&fp=&device_type=SM-G955F&resolution=1440*2792&openudid=91cac57ba8ef12b6&update_version_code=2018073102&sys_region=AS&os_api=28&is_my_cn=0&timezone_name=Asia/Muscat&dpi=560&carrier_region=OM&ac=wifi&device_id=6785177577851504133&mcc_mnc=42203&timezone_offset=14400&os_version=9&version_code=800&carrier_region_v2=422&app_name=musical_ly&version_name=8.0.0&device_brand=samsung&ssmix=a&build_number=8.0.0&device_platform=android&region=US&aid=&as=&cp=Qm&mas="
+	head = {
+		"User-Agent": "Connectionzucom.zhiliaoapp.musically/2018073102 (Linux; U; Android 9; en_AS; SM-G955F; Build/PPR1.180610.011; Cronet/58.0.2991.0)z",
+		"Host": "api2.musical.ly",
+		"Connection": "keep-alive",
+	}
+	data = {"email": email,"password": password}
+	rr = requests.post(url,headers=head,data=data)
+	if "user_id" in rr.text:
+		ssid  = rr.json()['data']['session_key']
+		print("Done Login ")
+		print(rr.json()['data']['name'])
+	elif "Incorrect account or password" in rr.text:
+		print('Incorrect account or password!')
+getss()
+if exists('userlist.txt'):
+	check_list = True
+	users = []
+	print(f'[{Fore.GREEN}+{Fore.RESET}] User list detected, grabbing contents...')
+	for line in open('userlist.txt', 'r'):
+		users.append(line.strip())
+	#ssid = input("[?] session id : ")
+	threads = int(input('[?] threads : '))
+	input(f'[{Fore.GREEN}+{Fore.RESET}] Press enter to start ')
+else:
+	#ssid = input("[?] session id : ")
+	target = input(f'[{Fore.RED}?{Fore.RESET}] target : ')
+	threads = int(input(f'[{Fore.RED}?{Fore.RESET}] threads : '))
+	input(f'[{Fore.GREEN}+{Fore.RESET}] Press enter to start')
+def check_ssid(ssid):
+	url = 'http://api2-19.musical.ly/aweme/v1/commit/user/?version_code=1.0.0&language=en&app_name=musical_ly&aid=1233&device_platform=iphone'
+	headers = {
+	'User-agent': 'TikTok/8.4.0 (iPhone; iOS 12.4; Scale/2.00)',
+	'cookie': f'sessionid={ssid}'
+	}
+	data = 'unique_id=ff'
+	r = requests.post(url, headers=headers, data=data,)
+	print(r.text)
+	if '"status_code": 2091' in r.text:
+		return True
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
-profile_default/
-ipython_config.py
-
-# pyenv
-.python-version
-
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
+def claim(ssid, users=[]):
+	global target, attempts
+	url = 'http://api2-19.musical.ly/aweme/v1/commit/user/?version_code=1.0.0&language=en&app_name=musical_ly&aid=1233&device_platform=iphone'
+	headers = {
+	'User-agent': 'TikTok/8.4.0 (iPhone; iOS 12.4; Scale/2.00)',
+	'cookie': f'sessionid={ssid}'
+	}
+	if users != []:
+		data = f"unique_id={users[0]}"
+	else:
+		data = f"unique_id={target}"
+	cookie = {'sessionid': ssid}
+	while True:
+				target = users[0] if users != [] else target
+				print(f' [{Fore.RED}->{Fore.RESET}]  Target: {target} | Attempts: {attempts}', end='\r')
+				r = requests.post(url, headers=headers, data=data, cookies=cookie).text
+				if 'unique_id' in r:
+						attempts += 1
+						print(f" [{Fore.GREEN}+{Fore.RESET}] Claimed username {Fore.GREEN}@{target if users == [] else users[0]}{Fore.RESET}     ")
+						ctypes.windll.user32.MessageBoxW(0, f"Successfully Swapped @{target} ", "TikTok's ", 0)
+						input()
+						quit()
+				elif '"status_code": 2091' in r and users != []:
+					attempts += 1
+					print(f' [{Fore.RED}-{Fore.RESET}] User : {target} unavailable, moving on...')
+					del users[0]
+					target = users[0]
+					data = f"unique_id={target}"
+				elif '"status_code": 2091' in r and users == []:
+					attempts += 1
+					
+if check_ssid(ssid):
+	print(f"[{Fore.GREEN}+{Fore.RESET}] Logged in successfully!")
+	print(f"[{Fore.GREEN}*{Fore.RESET}] Starting claimer...")
+	if check_list:
+		thread = []	
+		for i in range(threads):
+				t = threading.Thread(target=claim(ssid, users))
+				t.daemon = True
+				t.start()
+				thread.append(t)
+		for threads in thread:
+				threads.join()
+	else:
+		thread = []	
+		for i in range(threads):
+					t = threading.Thread(target=claim(ssid))
+					t.daemon = True
+					t.start()
+					thread.append(t)
+		for threads in thread:
+					threads.join()
+	print()
